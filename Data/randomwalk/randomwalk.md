@@ -70,6 +70,37 @@ from random import choice
 
 为了获取漫步中下一个点的x值和y值，我们可以将 `x/y_step + x/y_values` 得到新的位置。
 
+不过，这个 `fill_walk()` 函数过于冗长，我们可以对他进行重构。
+
+```python
+    def get_step(self):
+        """计算下一个随机漫步落点"""
+        direction = choice([1, -1])
+        distance = choice([0, 1, 2, 3, 4])
+        return direction * distance
+
+    def fill_walk(self):
+        """计算随机漫步包含的所有点"""
+
+        # 不断漫步，直到列表到达指定的长度
+        while len(self.x_values) < self.num_points:
+            # 决定前进方向以及沿这个方向前进的距离
+            x_step = self.get_step()
+
+            y_step = self.get_step()
+
+            # 拒绝原地踏步
+            if x_step == 0 and y_step == 0:
+                continue
+
+            # 计算下一个点的x和y值
+            next_x = self.x_values[-1] + x_step
+            next_y = self.y_values[-1] + y_step
+
+            self.x_values.append(next_x)
+            self.y_values.append(next_y)
+```
+
 ---
 
 为了绘制出随机漫步的图像，我们可以使用函数 `scatter()`
@@ -84,4 +115,31 @@ rw = RandomWalk()
 rw.fill_walk()
 plt.scatter(rw.x_values, rw.y_values, s=2)
 plt.show()
+```
+
+![图1](C:\Users\wohez\Documents\GitHub\LearningProject_Python_Spring_2020\Data\randomwalk\1.jpg)
+
+---
+
+同时我们也可以对随机漫步的图表的特性进行修改，我们的目的是突出每次漫步的重要特征，并让分散注意力的元素不显得那么显眼。
+
+对于颜色：
+
+我们可以使用颜色映射来指出漫步中各点的先后顺序，让漫步的顺序更加清晰。
+
+```python
+point_numbers = list(range(rw.num_points))
+    plt.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues,
+                edgecolors='none', s=10)
+```
+`point_numbers` 是一个0~5000的列表，用来记忆各个点出现的顺序，当作参数传入函数`scatter()`。
+
+对于坐标轴：
+
+我们要隐藏坐标轴，因为坐标轴在有些随机漫步的图表中并不重要。
+只需要两条语句，设置 `set_visible()` 为 *False*
+
+```python
+plt.axes().get_xaxis().set_visible(False)
+plt.axes().get_yaxis().set_visible(False)
 ```
