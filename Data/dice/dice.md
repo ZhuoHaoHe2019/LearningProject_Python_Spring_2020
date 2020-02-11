@@ -167,3 +167,48 @@ hist.render_to_file('die_visual.svg')
 ```
 
 ![图3](C:\Users\wohez\Documents\GitHub\LearningProject_Python_Spring_2020\Data\dice\3.jpg)
+
+---
+
+接下来，我们可以对代码进行重构，让他更具有可用性。
+
+我们可以先更改 `x_label` 的设置，让设置更加自动化。
+
+```python
+for num in range(2, max_result + 1):
+    x_labels.append(str(num))
+hist.x_labels = x_labels.copy()
+```
+然后把 `die_visual.py` 文件重构为函数。
+
+```python
+def throw_two_dice(die_1_sides=6, die_2_sides=6):
+    die_1 = Die(die_1_sides)
+    die_2 = Die(die_2_sides)
+
+# 抛几次骰子，并将结果存储在一个列表中
+    results = []
+    for roll_num in range(50000):
+        result = die_1.roll() + die_2.roll()
+        results.append(result)
+
+# 分析结果
+    frequencies = []
+    max_result = die_1.num_sides + die_2.num_sides
+    for value in range(2, max_result + 1):
+        frequency = results.count(value)
+        frequencies.append(frequency)
+
+    hist = pygal.Bar()
+
+    hist.title = 'Results of rolling a D' + str(die_1.num_sides) + ' and a D' + str(die_2.num_sides) + ' dice 50,000 times.'
+    x_labels = []
+    for num in range(2, max_result + 1):
+        x_labels.append(str(num))
+    hist.x_labels = x_labels.copy()
+    hist.x_title = 'Result'
+    hist.y_title = 'Frequency of Result'
+
+    hist.add('D' + str(die_1.num_sides) + '+ D' + str(die_2.num_sides), frequencies)
+    hist.render_to_file('die_visual.svg')
+```
