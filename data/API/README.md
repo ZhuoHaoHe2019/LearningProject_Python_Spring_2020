@@ -167,7 +167,7 @@ chart.render_to_file('python_repos.svg')
 ``` 
 
 显示的柱状图：
-![图1](C:\Users\wohez\Documents\GitHub\LearningProject_Python_Spring_2020\data\API\1.jpg)
+![图1](ZhuoHaoHe2019/LearningProject_Python_Spring_2020/data/API/1.jpg)
 
 接下来来改进这个图表，进行多方面的定制。
 
@@ -194,7 +194,7 @@ chart = pygal.Bar(config=my_config, style=my_style)
 ```
 得到的图像：
 
-![图2](C:\Users\wohez\Documents\GitHub\LearningProject_Python_Spring_2020\data\API\1.jpg\2.jpg)
+![图2](ZhuoHaoHe2019/LearningProject_Python_Spring_2020/data/API/2.jpg)
 
 为了让图表中显示更多的信息，而不仅仅是代码库的名字和star数。我们可以创建一个列表存放我们想要添加的信息。
 
@@ -215,4 +215,4 @@ chart.add('', plot_dicts)
 
 这样我们就可以得到既包含星数还包含代码库的描述以及网址，并实现点击表格就可以跳转到该网址。
 
-![图3](C:\Users\wohez\Documents\GitHub\LearningProject_Python_Spring_2020\data\API\1.jpg\3.jpg)
+![图3](ZhuoHaoHe2019/LearningProject_Python_Spring_2020/data/API/3.jpg)
